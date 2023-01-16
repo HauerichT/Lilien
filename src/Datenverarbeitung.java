@@ -1,51 +1,65 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class Datenverarbeitung {
 
+    // Arrays für die Cluster
     protected double[][] cluster1;
     protected double[][] cluster2;
     protected double[][] cluster3;
 
 
+    // Methode führt die einzelnen Schritte des Programms aus
     public final void ladenVearbeitenSpeichern(String s) {
+        // lädt und verarbeitet die Daten
         ladeDaten(s);
 
+        // ermittelt die Mittelwerte der Cluster
         double[] mittelwert1 = berechneMittelwert(cluster1);
         double[] mittelwert2 = berechneMittelwert(cluster2);
         double[] mittelwert3 = berechneMittelwert(cluster3);
 
+        // berechnet den Abstand 1
         Abstand1 abstand1 = new Abstand1();
         double a11 = abstand1.berechneAbstand(mittelwert1, mittelwert2);
         double a12 = abstand1.berechneAbstand(mittelwert1, mittelwert3);
         double a13 = abstand1.berechneAbstand(mittelwert2, mittelwert3);
 
+        // berechnet den Abstand 2
         Abstand2 abstand2 = new Abstand2();
         double a21 = abstand2.berechneAbstand(mittelwert1, mittelwert2);
         double a22 = abstand2.berechneAbstand(mittelwert1, mittelwert3);
         double a23 = abstand2.berechneAbstand(mittelwert2, mittelwert3);
 
+        // gibt die Abstände der Cluster aus
         ausgabe(a11, a12, a13);
         ausgabe(a21, a22, a23);
-
     }
 
+    // Abstrakte-Methode zur Berechnung der Abstände
     public abstract double berechneAbstand(double[] d1, double[] d2);
 
+    // Methode zur Ermittlung des Mittelwertes
     public double[] berechneMittelwert(double[][] d) {
-        double summe = 0;
-        for (int i = 0; i < d.length; i++) {
-            for (int j = 0; j < d[i].length; j++) {
-                summe = summe + d[i][j];
-            }
+        double[] temp = new double[d.length];
+
+        for (double[] doubles : d) {
+            temp[0] += doubles[0];
+            temp[1] += doubles[1];
+            temp[2] += doubles[2];
+            temp[3] += doubles[3];
         }
-        return new double[]{summe / d.length};
+
+        temp[0] = temp[0]/d.length;
+        temp[1] = temp[1]/d.length;
+        temp[2] = temp[2]/d.length;
+        temp[3] = temp[3]/d.length;
+        return temp;
     }
 
+    // lädt und verarbeitet Daten aus Datei
     public void ladeDaten(String datei) {
         try {
             // liest die Daten Zeile für Zeile ein
@@ -56,14 +70,14 @@ public abstract class Datenverarbeitung {
             int countCluster2 = 0;
             int countCluster3 = 0;
 
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).contains("Iris-setosa")) {
+            for (String s : list) {
+                if (s.contains("Iris-setosa")) {
                     countCluster1++;
                 }
-                if (list.get(i).contains("Iris-versicolor")) {
+                if (s.contains("Iris-versicolor")) {
                     countCluster2++;
                 }
-                if (list.get(i).contains("Iris-virginica")) {
+                if (s.contains("Iris-virginica")) {
                     countCluster3++;
                 }
             }
@@ -111,16 +125,17 @@ public abstract class Datenverarbeitung {
                     System.out.println("Zeile " + i + "enthält keinen Namen der Linienart oder die Linienart ist nicht bekannt!");
                 }
             }
-
-
-
+        // wirft Fehler, wenn Datei nicht gelesen werden kann
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    // gibt die Abstände auf der Konsole aus
     public void ausgabe(double a1, double a2, double a3) {
-        System.out.printf("d(cluster1, cluster2) = " + a1 + " d(cluster1, cluster3) = " + a2 + " d(cluster2, cluster3) = " + a3);
+        System.out.printf("d(cluster1, cluster2) = %.2f\n", a1);
+        System.out.printf("d(cluster1, cluster3) = %.2f\n", a2);
+        System.out.printf("d(cluster2, cluster3) = %.2f\n", a3);
         System.out.println();
     }
 

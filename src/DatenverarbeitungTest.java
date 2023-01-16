@@ -6,6 +6,7 @@ public class DatenverarbeitungTest {
                 return 0;
             }
         };
+        // führt die Verarbeitung und Berechnung der Daten aus
         datenverarbeitung.ladenVearbeitenSpeichern("src/iris-2.data.txt");
     }
 }

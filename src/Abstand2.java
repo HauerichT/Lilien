@@ -1,4 +1,5 @@
 public class Abstand2 extends Datenverarbeitung{
+    // berechnet den Abstand zweier Arrays
     @Override
     public double berechneAbstand(double[] d1, double[] d2) {
         double summe = 0;
@@ -11,6 +12,7 @@ public class Abstand2 extends Datenverarbeitung{
                 summe = summe + temp;
             }
         }
+        // returnt den Abstand2
         return summe;
     }
 }
