@@ -21,21 +21,13 @@ public abstract class Datenverarbeitung {
         double[] mittelwert2 = berechneMittelwert(cluster2);
         double[] mittelwert3 = berechneMittelwert(cluster3);
 
-        // berechnet den Abstand 1
-        Abstand1 abstand1 = new Abstand1();
-        double a11 = abstand1.berechneAbstand(mittelwert1, mittelwert2);
-        double a12 = abstand1.berechneAbstand(mittelwert1, mittelwert3);
-        double a13 = abstand1.berechneAbstand(mittelwert2, mittelwert3);
-
-        // berechnet den Abstand 2
-        Abstand2 abstand2 = new Abstand2();
-        double a21 = abstand2.berechneAbstand(mittelwert1, mittelwert2);
-        double a22 = abstand2.berechneAbstand(mittelwert1, mittelwert3);
-        double a23 = abstand2.berechneAbstand(mittelwert2, mittelwert3);
+        // berechnet den Abstand
+        double a1 = berechneAbstand(mittelwert1, mittelwert2);
+        double a2 = berechneAbstand(mittelwert1, mittelwert3);
+        double a3 = berechneAbstand(mittelwert2, mittelwert3);
 
         // gibt die Abstände der Cluster aus
-        ausgabe(a11, a12, a13);
-        ausgabe(a21, a22, a23);
+        ausgabe(a1, a2, a3);
     }
 
     // Abstrakte-Methode zur Berechnung der Abstände
